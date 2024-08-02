@@ -1,0 +1,30 @@
+// ----------------- VERSION FINAL ------------------  //
+
+- La propiedad que chequea el circuito es: "la foto presentada (Public Input) es un recorte de la foto original (Private Input) con los offsets off_x y off_y (private inputs), foto que a su vez está firmada tal que puede ser verificada usando la clave publica de la cámara (Public Input).
+
+Inspirado en: https://medium.com/@boneh/using-zk-proofs-to-fight-disinformation-17e7d57fe52f
+Circuitos parecidos en: https://github.com/TrishaDatta/circom-circuits/blob/main/crop.circom
+
+Idea para la POC:
+- Único frontend para los dos roles, única cuenta de MetaMask para las 2 acciones (bien simple).
+- El usuario se loguea con su cuenta de Metamask.
+- El publisher carga una foto de su ordenador y se firma con la clave privada de la billetera (simula la acción de sacar la foto y firmarla).
+- Una vez subida, se va a ofrecer la posibilidad de recortarla con una UI tan buena como se llegue.
+- Se confirma el recorte y se genera una nueva foto recortada.
+- A ambas fotos hay que extraerle la metadata y expresar el cuerpo como bytes rgb.
+
+- Hay que generar el circuito para las resoluciones especificadas (original y recortada) con groth16.
+	- Esto genera el xxx.zkey (verification key), el xxx_final.wasm (circuito), el ContractVerifier
+- Hay que generar la prueba
+
+- Hay que deployar el contrato (y no morir en el intento), quedarse POR FAVOR con el address del contrato
+
+- Una vez que tenemos...
+	- La prueba
+	- La imagen recortada
+	- El address del contrato verifier deployado en Sepolia
+	...pasamos al otro cliente.
+
+- Tenemos que mostrar la foto, con un botón abajo que le pegue al contrato.
+- Al presionar el botón, tenemos que convertir el recorte de la foto al formato deseado y pegarle al contrato con la verification key, y la foto recortada como public input.
+- Si todo sale bien, el contrato va a decir "sisi todo salió bien, sos legit".

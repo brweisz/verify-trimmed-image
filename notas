@@ -4,6 +4,7 @@
 
 Inspirado en: https://medium.com/@boneh/using-zk-proofs-to-fight-disinformation-17e7d57fe52f
 Circuitos parecidos en: https://github.com/TrishaDatta/circom-circuits/blob/main/crop.circom
+Tuto: https://vivianblog.hashnode.dev/how-to-create-a-zero-knowledge-dapp-from-zero-to-production#heading-install-dependencies
 
 Idea para la POC:
 - Único frontend para los dos roles, única cuenta de MetaMask para las 2 acciones (bien simple).

@@ -21,7 +21,7 @@ export function PublisherForm() {
         <span>Device key: </span>
         <input type="text" name="key" />
       </label>
-      <button type="submit">Submit</button>
+      <button type="submit" className={styles.proveButton}>Generate Proof</button>
     </form>
   );
 }
@@ -45,7 +45,7 @@ export function ReaderForm() {
         <span>Device key: </span>
         <input type="text" name="key" />
       </label>
-      <button type="submit">Submit</button>
+      <button type="submit" className={styles.verifyButton}>Verify</button>
     </form>
   );
 }

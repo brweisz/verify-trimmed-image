@@ -11,3 +11,12 @@
   border: 1px solid #ccc;
 }
 
+.verifyButton {
+  background-color: #04AA6D;
+  border-radius: 8px;
+}
+
+.proveButton {
+  background-color: #f44336;
+  border-radius: 8px;
+}

@@ -5,7 +5,7 @@ pragma circom 2.0.0;
   tal que puede ser verificada usando la clave publica de la cámara (Public Input).
 */
 
-include "circomlib/poseidon.circom";
+include "../node_modules/circomlib/circuits/poseidon.circom";
 
 template Crop(og_width, og_height, pr_width, pr_height, offset_x, offset_y) {
   assert(pr_width + offset_x <= og_width);

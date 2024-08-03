@@ -14,20 +14,19 @@ template Crop(og_width, og_height, pr_width, pr_height, offset_x, offset_y) {
   assert(pr_width + offset_x <= og_width);
   assert(pr_height + offset_y <= og_height);
 
-  signal input og_photo[og_height][og_width];
-  signal input pr_photo[pr_height][pr_width];
+  signal input og_photo[og_height*og_width];
+  signal input pr_photo[pr_height*pr_width];
   signal input og_signature;
   signal input camera_pk;
   signal output check;
 
-  // TODO: CAMBIAR TODO A TIRA DE BYTES EN VEZ DE MATRIZ PARA PODER PASARLO A EDDSA
   // TODO: CHECKEAR QUE verify(og_photo, og_signature, public_key) === 1
-  component verifier = EdDSAVerifier(LONGITUD_MENSAJE);
-  verifier.msg = ;
+  component verifier = EdDSAVerifier(og_height*og_width);
+  verifier.msg = og_photo;
 
-  for (var i = 0; i < pr_width; i++) {
-		for (var j = 0; j < pr_height; j++) {
-			pr_photo[i][j] === og_photo[offset_y + i][offset_x + j];
+  for (var i = 0; i < pr_height; i++) {
+		for (var j = 0; j < pr_width; j++) {
+			pr_photo[i*pr_width + j] === og_photo[(offset_y + i)*pr_width + (offset_x + j)];
 		}
 	}
 

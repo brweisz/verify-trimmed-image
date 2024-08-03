@@ -1,212 +1,109 @@
 import { assert } from "chai";
 import "mocha";
-
 const wasm_tester = require("circom_tester").wasm
 
-describe("Sudoku circuit", function () {
-  let sudokuCircuit: any
+const divideInBits = (num: bigint): Array<number> => {
+  const binary_string = num.toString(2);
+  const bit_length = 256;
+  let padded_binary_string = binary_string.padStart(bit_length, '0');
+
+  if (padded_binary_string.length > bit_length) {
+    padded_binary_string = padded_binary_string.slice(-bit_length);
+  
+  }
+  const bit_array = [];
+  
+  for (let char of padded_binary_string)
+    bit_array.push(Number(char));
+  
+  return bit_array;
+}
+
+describe("Crop Checker Circuit TestCase", function () {
+  let cropCheckerCircuit: any;
+  const private_key_example = 1240981903890821;
 
   before(async function () {
-    sudokuCircuit = await wasm_tester("circuits/sudoku/sudoku.circom")
+    cropCheckerCircuit = await wasm_tester("../crop_checker_circuit.circom")
   })
 
   it("Should generate the witness successfully", async function () {
     let input = {
-      unsolved: [
-        [0, 0, 0, 0, 0, 6, 0, 0, 0],
-        [0, 0, 7, 2, 0, 0, 8, 0, 0],
-        [9, 0, 6, 8, 0, 0, 0, 1, 0],
-        [3, 0, 0, 7, 0, 0, 0, 2, 9],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [4, 0, 0, 5, 0, 0, 0, 7, 0],
-        [6, 5, 0, 1, 0, 0, 0, 0, 0],
-        [8, 0, 1, 0, 5, 0, 3, 0, 0],
-        [7, 9, 2, 0, 0, 0, 0, 0, 4]
+      og_photo: [
+        "1", "1", "1",
+        "1", "2", "2",
+        "2", "1", "1"
       ],
-      solved: [
-        [1, 8, 4, 3, 7, 6, 2, 9, 5],
-        [5, 3, 7, 2, 9, 1, 8, 4, 6],
-        [9, 2, 6, 8, 4, 5, 7, 1, 3],
-        [3, 6, 5, 7, 1, 8, 4, 2, 9],
-        [2, 7, 8, 4, 6, 9, 5, 3, 1],
-        [4, 1, 9, 5, 3, 2, 6, 7, 8],
-        [6, 5, 3, 1, 2, 4, 9, 8, 7],
-        [8, 4, 1, 9, 5, 7, 3, 6, 2],
-        [7, 9, 2, 6, 8, 3, 1, 5, 4]
-      ]
+      pr_photo: [
+        "1", "2",
+        "2", "1"
+      ],
+      og_signature: [],
+      camera_pk: divideInBits(BigInt(private_key_example))
     }
-    const witness = await sudokuCircuit.calculateWitness(input)
-    await sudokuCircuit.assertOut(witness, {})
+    const witness = await cropCheckerCircuit.calculateWitness(input)
+    await cropCheckerCircuit.assertOut(witness, {})
   })
-  it("Should fail because there is a number out of bounds", async function () {
-    // The number 10 in the first row of solved is > 9
+  it("Should fail because the og_photo size does not match", async function () {
     let input = {
-      unsolved: [
-        [0, 0, 0, 0, 0, 6, 0, 0, 0],
-        [0, 0, 7, 2, 0, 0, 8, 0, 0],
-        [9, 0, 6, 8, 0, 0, 0, 1, 0],
-        [3, 0, 0, 7, 0, 0, 0, 2, 9],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [4, 0, 0, 5, 0, 0, 0, 7, 0],
-        [6, 5, 0, 1, 0, 0, 0, 0, 0],
-        [8, 0, 1, 0, 5, 0, 3, 0, 0],
-        [7, 9, 2, 0, 0, 0, 0, 0, 4]
+      og_photo: [
+        "1", "1", "1",
+        "1", "2", "2",
+        "2", "1", "1"
       ],
-      solved: [
-        [1, 8, 4, 3, 7, 6, 2, 9, 10],
-        [5, 3, 7, 2, 9, 1, 8, 4, 6],
-        [9, 2, 6, 8, 4, 5, 7, 1, 3],
-        [3, 6, 5, 7, 1, 8, 4, 2, 9],
-        [2, 7, 8, 4, 6, 9, 5, 3, 1],
-        [4, 1, 9, 5, 3, 2, 6, 7, 8],
-        [6, 5, 3, 1, 2, 4, 9, 8, 7],
-        [8, 4, 1, 9, 5, 7, 3, 6, 2],
-        [7, 9, 2, 6, 8, 3, 1, 5, 4]
-      ]
+      pr_photo: [
+        "1", "2",
+        "2", "1"
+      ],
+      og_signature: [],
+      camera_pk: divideInBits(BigInt(private_key_example))
     }
     try {
-      await sudokuCircuit.calculateWitness(input)
+      await cropCheckerCircuit.calculateWitness(input)
     } catch (err: any) {
-      //   console.log(err)
       assert(err.message.includes("Assert Failed"))
     }
   })
-  it("Should fail because unsolved is not the initial state of solved", async function () {
-    // unsolved is not the initial state of solved
+  it("Should fail because the pr_photo does not match", async function () {
     let input = {
-      unsolved: [
-        [0, 0, 0, 0, 0, 6, 0, 0, 0],
-        [0, 0, 7, 2, 0, 0, 8, 0, 0],
-        [9, 0, 6, 8, 0, 0, 0, 1, 0],
-        [3, 0, 0, 7, 0, 0, 0, 2, 9],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [4, 0, 0, 5, 0, 0, 0, 7, 0],
-        [6, 5, 0, 1, 0, 0, 0, 0, 0],
-        [8, 0, 1, 0, 5, 0, 3, 0, 0],
-        [7, 9, 2, 0, 0, 0, 0, 0, 4]
+      og_photo: [
+        "1", "1", "1",
+        "1", "2", "2",
+        "2", "1", "1"
       ],
-      solved: [
-        [1, 2, 7, 5, 8, 4, 6, 9, 3],
-        [8, 5, 6, 3, 7, 9, 1, 2, 4],
-        [3, 4, 9, 6, 2, 1, 8, 7, 5],
-        [4, 7, 1, 9, 5, 8, 2, 3, 6],
-        [2, 6, 8, 7, 1, 3, 5, 4, 9],
-        [9, 3, 5, 4, 6, 2, 7, 1, 8],
-        [5, 8, 3, 2, 9, 7, 4, 6, 1],
-        [7, 1, 4, 8, 3, 6, 9, 5, 2],
-        [6, 9, 2, 1, 4, 5, 3, 8, 7]
-      ]
+      pr_photo: [
+        "1", "2",
+        "2", "1"
+      ],
+      og_signature: [],
+      camera_pk: divideInBits(BigInt(private_key_example))
     }
     try {
-      await sudokuCircuit.calculateWitness(input)
+      await cropCheckerCircuit.calculateWitness(input)
     } catch (err) {
       if (err instanceof Error) {
-        // console.log(err)
         assert(err.message.includes("Assert Failed"))
       }
     }
   })
-  it("Should fail due to repeated numbers in a row", async function () {
-    // The number 1 in the first row of solved is twice
+  it("Should fail because the signature is not correct", async function () {
     let input = {
-      unsolved: [
-        [0, 0, 0, 0, 0, 6, 0, 0, 0],
-        [0, 0, 7, 2, 0, 0, 8, 0, 0],
-        [9, 0, 6, 8, 0, 0, 0, 1, 0],
-        [3, 0, 0, 7, 0, 0, 0, 2, 9],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [4, 0, 0, 5, 0, 0, 0, 7, 0],
-        [6, 5, 0, 1, 0, 0, 0, 0, 0],
-        [8, 0, 1, 0, 5, 0, 3, 0, 0],
-        [7, 9, 2, 0, 0, 0, 0, 0, 4]
+      og_photo: [
+        "1", "1", "1",
+        "1", "2", "2",
+        "2", "1", "1"
       ],
-      solved: [
-        [1, 8, 4, 3, 7, 6, 2, 9, 1],
-        [5, 3, 7, 2, 9, 1, 8, 4, 6],
-        [9, 2, 6, 8, 4, 5, 7, 1, 3],
-        [3, 6, 5, 7, 1, 8, 4, 2, 9],
-        [2, 7, 8, 4, 6, 9, 5, 3, 1],
-        [4, 1, 9, 5, 3, 2, 6, 7, 8],
-        [6, 5, 3, 1, 2, 4, 9, 8, 7],
-        [8, 4, 1, 9, 5, 7, 3, 6, 2],
-        [7, 9, 2, 6, 8, 3, 1, 5, 4]
-      ]
+      pr_photo: [
+        "1", "2",
+        "2", "1"
+      ],
+      og_signature: [],
+      camera_pk: divideInBits(BigInt(private_key_example))
     }
     try {
-      await sudokuCircuit.calculateWitness(input)
+      await cropCheckerCircuit.calculateWitness(input)
     } catch (err) {
       if (err instanceof Error) {
-        // console.log(err)
-        assert(err.message.includes("Assert Failed"))
-      }
-    }
-  })
-  it("Should fail due to repeated numbers in a column", async function () {
-    // The number 4 in the first column of solved is twice and the number 7 in the last column of solved is twice too
-    let input = {
-      unsolved: [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0]
-      ],
-      solved: [
-        [1, 8, 4, 3, 7, 6, 2, 9, 5],
-        [5, 3, 7, 2, 9, 1, 8, 4, 6],
-        [9, 2, 6, 8, 4, 5, 7, 1, 3],
-        [3, 6, 5, 7, 1, 8, 4, 2, 9],
-        [2, 7, 8, 4, 6, 9, 5, 3, 1],
-        [4, 1, 9, 5, 3, 2, 6, 7, 8],
-        [6, 5, 3, 1, 2, 4, 9, 8, 7],
-        [8, 4, 1, 9, 5, 7, 3, 6, 2],
-        [4, 9, 2, 6, 8, 3, 1, 5, 7]
-      ]
-    }
-    try {
-      await sudokuCircuit.calculateWitness(input)
-    } catch (err) {
-      if (err instanceof Error) {
-        // console.log(err)
-        assert(err.message.includes("Assert Failed"))
-      }
-    }
-  })
-  it("Should fail due to repeated numbers in a square", async function () {
-    // The number 1 in the first square (top-left) of solved is twice
-    let input = {
-      unsolved: [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0]
-      ],
-      solved: [
-        [1, 8, 4, 3, 7, 6, 2, 9, 5],
-        [5, 3, 7, 2, 9, 1, 8, 4, 6],
-        [9, 2, 1, 8, 4, 5, 7, 6, 3],
-        [3, 6, 5, 7, 1, 8, 4, 2, 9],
-        [2, 7, 8, 4, 6, 9, 5, 3, 1],
-        [4, 1, 9, 5, 3, 2, 6, 7, 8],
-        [6, 5, 3, 1, 2, 4, 9, 8, 7],
-        [8, 4, 6, 9, 5, 7, 3, 1, 2],
-        [7, 9, 2, 6, 8, 3, 1, 5, 4]
-      ]
-    }
-    try {
-      await sudokuCircuit.calculateWitness(input)
-    } catch (err) {
-      if (err instanceof Error) {
-        // console.log(err)
         assert(err.message.includes("Assert Failed"))
       }
     }

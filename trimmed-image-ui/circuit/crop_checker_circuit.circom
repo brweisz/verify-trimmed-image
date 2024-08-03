@@ -8,6 +8,8 @@ pragma circom 2.0.0;
   se puede construir inyeccion a Fp desde F256 x F256 x F256.
 */
 
+include "../node_modules/eddsa.circom";
+
 template Crop(og_width, og_height, pr_width, pr_height, offset_x, offset_y) {
   assert(pr_width + offset_x <= og_width);
   assert(pr_height + offset_y <= og_height);
@@ -18,8 +20,10 @@ template Crop(og_width, og_height, pr_width, pr_height, offset_x, offset_y) {
   signal input camera_pk;
   signal output check;
 
+  // TODO: CAMBIAR TODO A TIRA DE BYTES EN VEZ DE MATRIZ PARA PODER PASARLO A EDDSA
   // TODO: CHECKEAR QUE verify(og_photo, og_signature, public_key) === 1
-
+  component verifier = EdDSAVerifier(LONGITUD_MENSAJE);
+  verifier.msg = ;
 
   for (var i = 0; i < pr_width; i++) {
 		for (var j = 0; j < pr_height; j++) {

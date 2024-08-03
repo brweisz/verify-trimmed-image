@@ -1,4 +1,3 @@
-
 const convertToOneElement = (rgb: [number, number, number]): number => rgb[0]*256*256 + rgb[1]*256 + rgb[2];
 export const convertPhoto = (photo: Array<[number, number, number]>): Array<number> => photo.map(convertToOneElement);
 
@@ -45,8 +44,4 @@ const changeCircuitParameters = (
   /*fs.appendFile(circom_file,
     `\n\ncomponent main { public [ pr_photo, camera_pk ] } = Crop(${original_photo_width}, ${original_photo_height}, ${presented_photo_width}, ${presented_photo_height}, ${offset_x}, ${offset_y});\n`,
     (err) => console.log(err));*/
-}
-
-const schnorrSignature = () => {
-  
 }

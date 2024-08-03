@@ -1,0 +1,13 @@
+/* styles/Home.module.css */
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {
+  width: 48%;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+}
+

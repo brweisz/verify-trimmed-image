@@ -1,13 +1,49 @@
 import Image from "next/image";
+import styles from '../styles/Home.module.css'
+import {handlePublisherForm, handleReaderForm} from "./server"
 
-import {uploadFile} from "./server"
-
-export function UploadForm() {
+export function PublisherForm() {
   return (
-    <form action={uploadFile} className="flex flex-col gap-4">
+    <form action={handlePublisherForm} className="flex flex-col gap-4">
       <label>
-        <span>Upload a file</span><br/>
-        <input type="file" name="file" />
+        <span>Original image: </span>
+        <input type="file" name="original" />
+      </label>
+      <label>
+        <span>Cropped image: </span>
+        <input type="file" name="cropped" />
+      </label>
+      <label>
+        <span>Image signature: </span>
+        <input type="text" name="signature" />
+      </label>
+      <label>
+        <span>Device key: </span>
+        <input type="text" name="key" />
+      </label>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export function ReaderForm() {
+  return (
+    <form action={handleReaderForm} className="flex flex-col gap-4">
+      <label>
+        <span>Cropped image: </span>
+        <input type="file" name="cropped" />
+      </label>
+      <label>
+        <span>Proof of validity: </span>
+        <input type="text" name="proof" />
+      </label>
+      <label>
+        <span>Contract address: </span>
+        <input type="text" name="address" />
+      </label>
+      <label>
+        <span>Device key: </span>
+        <input type="text" name="key" />
       </label>
       <button type="submit">Submit</button>
     </form>
@@ -16,48 +52,14 @@ export function UploadForm() {
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-2 lg:text-left">
-        <div className="Columna1">
-          <h1>Publisher</h1>
-          {UploadForm()}
-        </div>
-        <div className="Columna2">
-          <h1>Reader</h1>
-        </div>
-        {/* <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a> */}
+    <main className={styles.container}>
+      <div className={styles.column}>
+        <h1>Publisher</h1>
+        {PublisherForm()}
+      </div>  
+      <div className={styles.column}>
+        <h1>Reader</h1>
+        {ReaderForm()}
       </div>
     </main>
   );

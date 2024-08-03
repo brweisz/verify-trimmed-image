@@ -3,8 +3,11 @@ import fs from "node:fs/promises";
 import { revalidatePath } from "next/cache";
 import Jimp from "jimp";
 
-export async function uploadFile(formData: FormData) {
-    const file = formData.get("file") as File;
+export async function handlePublisherForm(formData: FormData) {
+    const key = formData.get("key");
+    console.log("key: " + key);
+    
+    const file = formData.get("original") as File;
     const arrayBuffer = await file.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
     
@@ -15,7 +18,7 @@ export async function uploadFile(formData: FormData) {
         .then((image) => {
             console.log("imagen:");
             console.log(image.bitmap.data.buffer.byteLength);
-            console.log(image.bitmap.data[200]);
+            // console.log(image.bitmap.data[200]);
         })
         .catch((err) => {
             console.log("error");
@@ -23,4 +26,8 @@ export async function uploadFile(formData: FormData) {
         });
 
     revalidatePath("/");
+}
+
+export async function handleReaderForm(formData: FormData) {
+    
 }

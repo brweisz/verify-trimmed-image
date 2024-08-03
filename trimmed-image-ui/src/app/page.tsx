@@ -2,7 +2,6 @@
 import styles from '../styles/Home.module.css'
 
 import {handlePublisherForm, handleReaderForm} from "./server"
-import CompileCircuit from "@/app/caller";
 import ImageCropper from "@/app/ImageCropper";
 import {useState} from "react";
 
@@ -47,11 +46,13 @@ export function PublisherForm() {
                   <span>Device key: </span>
                   <input type="text" name="key"/>
               </label>
-              <CompileCircuit/>
+              <button type="submit" className={styles.proveButton}>
+                  Compile
+              </button>
           </form>
 
       </div>
-  );
+    );
 }
 
 export function ReaderForm() {

@@ -7,7 +7,7 @@ import {convertPhoto, divideInBits} from "../../circuit/utils";
 
 export async function handlePublisherForm(formData: FormData) {
     const key = formData.get("key");
-    console.log("key: " + key);
+    console.log(formData);
 
     //original_photo: convertPhoto(original_photo),
     //presented_photo: convertPhoto(presented_photo),
@@ -32,7 +32,7 @@ export async function handlePublisherForm(formData: FormData) {
     const command = `./scripts/executeGroth16.sh`;
 
     // Execute the command
-    exec(command, (error, stdout, stderr) => {
+    /*exec(command, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error: ${error.message}`);
 
@@ -43,7 +43,7 @@ export async function handlePublisherForm(formData: FormData) {
         }
         console.log(`Stdout: ${stdout}`);
 
-    });
+    });*/
 
     /*const file = formData.get("original") as File;
     const arrayBuffer = await file.arrayBuffer();

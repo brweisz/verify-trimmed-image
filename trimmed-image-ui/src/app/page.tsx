@@ -4,18 +4,41 @@ import styles from '../styles/Home.module.css'
 import {handlePublisherForm, handleReaderForm} from "./server"
 import CompileCircuit from "@/app/caller";
 import ImageCropper from "@/app/ImageCropper";
+import {useState} from "react";
 
 export function PublisherForm() {
 
-  return (
-      <div>
-          <form action={handlePublisherForm} className="flex flex-col gap-4">
+    const [originalImage, setOriginalImage] = useState<string | null>(null);
+    const [croppedImage, setCroppedImage] = useState<string | null>(null);
 
-              <ImageCropper/>
-              <label>
-                  <span>Cropped image: </span>
-                  <input type="file" name="cropped"/>
-              </label>
+    const handleOriginalImage = (image: string) => {
+        setOriginalImage(image); // Update state with the original image data URL
+    };
+
+    const handleCroppedImage = (image: string) => {
+        setCroppedImage(image); // Update state with the cropped image data URL
+    };
+
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        // Prepare form data
+        const formData = new FormData(event.currentTarget);
+        if (originalImage) {
+            formData.append('originalImage', originalImage); // Add original image data URL to FormData
+        }
+        if (croppedImage) {
+            formData.append('croppedImage', croppedImage); // Add cropped image data URL to FormData
+        }
+        handlePublisherForm(formData)
+
+    }
+
+    return (
+      <div>
+          <form onSubmit={onSubmit} className="flex flex-col gap-4">
+
+              <ImageCropper onOriginalImage={handleOriginalImage} onCroppedImage={handleCroppedImage}/>
               <label>
                   <span>Image signature: </span>
                   <input type="text" name="signature"/>

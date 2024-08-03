@@ -1,41 +1,46 @@
+"use client"
 import styles from '../styles/Home.module.css'
+
 import {handlePublisherForm, handleReaderForm} from "./server"
 import CompileCircuit from "@/app/caller";
+import ImageCropper from "@/app/ImageCropper";
 
 export function PublisherForm() {
+
   return (
-    <form action={handlePublisherForm} className="flex flex-col gap-4">
-      <label>
-        <span>Original image: </span>
-        <input type="file" name="original" />
-      </label>
-      <label>
-        <span>Cropped image: </span>
-        <input type="file" name="cropped" />
-      </label>
-      <label>
-        <span>Image signature: </span>
-        <input type="text" name="signature" />
-      </label>
-      <label>
-        <span>Device key: </span>
-        <input type="text" name="key" />
-      </label>
-        <CompileCircuit/>
-    </form>
+      <div>
+          <form action={handlePublisherForm} className="flex flex-col gap-4">
+
+              <ImageCropper/>
+              <label>
+                  <span>Cropped image: </span>
+                  <input type="file" name="cropped"/>
+              </label>
+              <label>
+                  <span>Image signature: </span>
+                  <input type="text" name="signature"/>
+              </label>
+              <label>
+                  <span>Device key: </span>
+                  <input type="text" name="key"/>
+              </label>
+              <CompileCircuit/>
+          </form>
+
+      </div>
   );
 }
 
 export function ReaderForm() {
-  return (
-    <form action={handleReaderForm} className="flex flex-col gap-4">
-      <label>
-        <span>Cropped image: </span>
-        <input type="file" name="cropped" />
-      </label>
-      <label>
-        <span>Proof of validity: </span>
-        <input type="text" name="proof" />
+    return (
+        <form action={handleReaderForm} className="flex flex-col gap-4">
+            <label>
+                <span>Cropped image: </span>
+                <input type="file" name="cropped"/>
+            </label>
+            <label>
+                <span>Proof of validity: </span>
+                <input type="text" name="proof" />
       </label>
       <label>
         <span>Contract address: </span>

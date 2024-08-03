@@ -1,5 +1,36 @@
+import sharp from "sharp";
+
 const convertToOneElement = (rgb: [number, number, number]): number => rgb[0]*256*256 + rgb[1]*256 + rgb[2];
-export const convertPhoto = (photo: Array<[number, number, number]>): Array<number> => photo.map(convertToOneElement);
+const convertPhoto = (photo: Array<[number, number, number]>): Array<number> => photo.map(convertToOneElement);
+
+//@ts-ignore
+export async function base64ToRgbArray(base64String) {
+  // Remove the data URL prefix
+  const base64Data = base64String.replace(/^data:image\/[a-z]+;base64,/, "");
+
+  // Convert base64 to binary buffer
+  const buffer = Buffer.from(base64Data, 'base64');
+
+  try {
+    // Process the image buffer with sharp
+    const { data, info } = await sharp(buffer)
+        .raw() // Get raw image data
+        .ensureAlpha() // Ensure alpha channel is present
+        .toBuffer({ resolveWithObject: true });
+
+    // Convert to RGB array
+    const { width, height } = info;
+    const rgbArray = [];
+    for (let i = 0; i < data.length; i += 4) {
+      rgbArray.push([data[i], data[i + 1], data[i + 2]]);
+    }
+
+    return rgbArray;
+  } catch (error) {
+    console.error('Error processing image:', error);
+    throw error;
+  }
+}
 
 export const divideInBits = (num: bigint): Array<number> => {
   const binary_string = num.toString(2);

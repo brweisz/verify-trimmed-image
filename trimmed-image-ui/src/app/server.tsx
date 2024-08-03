@@ -3,36 +3,63 @@ import fs from "node:fs/promises";
 import { revalidatePath } from "next/cache";
 import Jimp from "jimp";
 import {exec} from "child_process";
-import {convertPhoto, divideInBits} from "../../circuit/utils";
+import {divideInBits, base64ToRgbArray} from "../../circuit/utils";
 
+//@ts-ignore
 export async function handlePublisherForm(formData: FormData) {
-    const key = formData.get("key");
-    console.log(formData);
+    let og_photo: unknown = formData.get("originalImage")
+    if (typeof og_photo === "string") {
+        og_photo = og_photo?.replace(/^data:image\/png;base64,/, "");
+    }
+    og_photo = await base64ToRgbArray(og_photo)
 
-    //original_photo: convertPhoto(original_photo),
-    //presented_photo: convertPhoto(presented_photo),
-    //camera_public_key: divideInBits(camera_public_key),
-    //original_photo_signature: original_photo_signature.map(divideInBits),
-    //original_photo_width,
-    //original_photo_height,
-    //presented_photo_width,
-    //presented_photo_height,
-    //offset_x,
-    //offset_y,
+
+    let pr_photo: unknown = formData.get("croppedImage")
+    if (typeof pr_photo === "string") {
+        pr_photo = pr_photo?.replace(/^data:image\/png;base64,/, "");
+    }
+    pr_photo = await base64ToRgbArray(pr_photo)
+
+    console.log(og_photo)
+    console.log(pr_photo)
+    return;
+    // let original_photo_signature = formData.get("signature") // original_photo_signature.map(divideInBits)
+
+    let original_photo_width = formData.get("originalImageWidth")
+    let original_photo_height = formData.get("originalImageWeight")
+    let presented_photo_width = formData.get("presentedImageWidth")
+    let presented_photo_height = formData.get("presentedImageWeight")
+    let offset_x = formData.get("cropOffsetX")
+    let offset_y = formData.get("cropOffsetY")
+
 
     // Crear el circuito parametrizado con los valores del recorte y tamaños
         // Guardar en /circuit
+    const sourceCircuit = './circuit/crop_checker_circuit.circom';
+    const customCircuit = './circuit/crop_checker_circuit_custom.circom';
 
-    // Escribir un archivo de inputs en circuit/compiled/public.json
+    try {await fs.unlink(customCircuit);} catch (err) {console.log(err)}
+    try {await fs.copyFile(sourceCircuit, customCircuit, fs.constants.COPYFILE_EXCL)} catch (err){console.log(err)}
+
+    await fs.appendFile(customCircuit,
+        `\n\ncomponent main { public [ pr_photo, camera_pk ] } = Crop(${original_photo_width}, 
+        ${original_photo_height}, ${presented_photo_width}, ${presented_photo_height}, ${offset_x}, ${offset_y});\n`);
+
+    // Escribir un archivo de inputs
+    let circuit_inputs = {
+        og_photo,
+        pr_photo,
+        //og_photo_hash,
+    }
+
+    let inputs_file_path = 'circuit/input.json'
+    fs.writeFile(inputs_file_path, JSON.stringify(circuit_inputs));
 
     // Ejecutar el script executeGroth16.sh --> tenemos verification_key, circuito.wasm, contractVerifier, abiFile
-
-
-    //const command = `ls`;
-    const command = `./scripts/executeGroth16.sh`;
+    const command = `./circuit/executeGroth16.sh`;
 
     // TODO: esto estaría bueno ejecutarlo del lado del cliente
-    /*exec(command, (error, stdout, stderr) => {
+    exec(command, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error: ${error.message}`);
 
@@ -42,8 +69,7 @@ export async function handlePublisherForm(formData: FormData) {
 
         }
         console.log(`Stdout: ${stdout}`);
-
-    });*/
+    });
 
     /*const file = formData.get("original") as File;
     const arrayBuffer = await file.arrayBuffer();
@@ -65,6 +91,9 @@ export async function handlePublisherForm(formData: FormData) {
 
     revalidatePath("/");*/
 }
+
+
+
 
 export async function handleReaderForm(formData: FormData) {
     

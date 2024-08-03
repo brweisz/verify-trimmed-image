@@ -18,7 +18,8 @@
     "jimp": "^0.22.12",
     "next": "^14.2.5",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "sharp": "^0.33.4"
   },
   "devDependencies": {
     "@types/chai": "^4.3.17",

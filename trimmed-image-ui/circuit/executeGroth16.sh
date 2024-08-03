@@ -1,28 +1,13 @@
 #!/bin/bash
 
 # Variable to store the name of the circuit
-CIRCUIT=sudoku
-
-# In case there is a circuit name as an input
-if [ "$1" ]; then
-    CIRCUIT=$1
-fi
+CIRCUIT="crop_checker_circuit_custom"
 
 # Variable to store the number of the ptau file
 PTAU=13
 
-# In case there is a ptau file number as an input
-if [ "$2" ]; then
-    PTAU=$2
-fi
-
 # Path to the directory where the circuit is located
-PATH_CIRCUIT=./circuits/${CIRCUIT}
-
-# In case there is a path as input
-if [ "$3" ]; then
-    PATH_CIRCUIT=$3
-fi
+PATH_CIRCUIT="./circuit"
 
 # Check if the necessary ptau file already exists. If it does not exist, it will be downloaded from the data center
 if [ -f ./ptau/powersOfTau28_hez_final_${PTAU}.ptau ]; then
@@ -33,7 +18,7 @@ else
 fi
 
 # Build directory path
-BUILD_DIR=circuit/compiled
+BUILD_DIR="./circuit/build"
 
 # Delete the build folder, if it exists
 rm -r -f ${BUILD_DIR}

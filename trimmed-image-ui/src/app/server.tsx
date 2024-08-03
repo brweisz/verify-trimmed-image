@@ -31,7 +31,7 @@ export async function handlePublisherForm(formData: FormData) {
     //const command = `ls`;
     const command = `./scripts/executeGroth16.sh`;
 
-    // Execute the command
+    // TODO: esto estaría bueno ejecutarlo del lado del cliente
     /*exec(command, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error: ${error.message}`);

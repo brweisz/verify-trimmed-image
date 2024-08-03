@@ -4,8 +4,8 @@ import 'cropperjs/dist/cropper.css';
 
 
 interface ImageCropperProps {
-    onOriginalImage: (image: string) => void;
-    onCroppedImage: (image: string) => void;
+    onOriginalImage: (image: string, size: { width: number; height: number }) => void;
+    onCroppedImage: (image: string, size: { width: number; height: number }, offset: { x: number; y: number }) => void;
 }
 
 const ImageCropper: React.FC<ImageCropperProps> = ({ onOriginalImage, onCroppedImage }) => {
@@ -13,6 +13,8 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ onOriginalImage, onCroppedI
     const [croppedImageSrc, setCroppedImageSrc] = useState<string | null>(null);
     const imageRef = useRef<HTMLImageElement>(null);
     const [cropper, setCropper] = useState<Cropper | null>(null);
+    const [originalImageSize, setOriginalImageSize] = useState<{ width: number; height: number } | null>(null);
+
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -20,7 +22,12 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ onOriginalImage, onCroppedI
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImageSrc(reader.result as string);
-                onOriginalImage(reader.result as string);
+                const img = new Image();
+                img.src = reader.result as string;
+                img.onload = () => {
+                    setOriginalImageSize({ width: img.width, height: img.height });
+                    onOriginalImage(reader.result as string, { width: img.width, height: img.height }); // Pass original image data and size to parent
+                };
             };
             reader.readAsDataURL(file);
         }
@@ -31,7 +38,19 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ onOriginalImage, onCroppedI
             const canvas = cropper.getCroppedCanvas();
             const croppedImage = canvas.toDataURL('image/jpeg');
             setCroppedImageSrc(croppedImage)
-            onCroppedImage(croppedImage);
+            const cropBoxData = cropper.getCropBoxData();
+            const originalImageSize = cropper.getImageData();
+
+            // Calculate offsets
+            const offsetX = cropBoxData.left - originalImageSize.left;
+            const offsetY = cropBoxData.top - originalImageSize.top;
+
+            // Pass cropped image data, size, and offsets to parent
+            onCroppedImage(
+                croppedImage,
+                { width: canvas.width, height: canvas.height },
+                { x: cropBoxData.left, y: cropBoxData.top }
+            );
         }
     };
 
@@ -39,7 +58,7 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ onOriginalImage, onCroppedI
         if (imageRef.current && imageSrc) {
             const cropperInstance = new Cropper(imageRef.current, {
                 aspectRatio: 0,
-                viewMode: 1,
+                viewMode: 3,
                 zoomable: true,
                 scalable: true,
             });

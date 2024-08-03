@@ -29,3 +29,12 @@ Idea para la POC:
 - Tenemos que mostrar la foto, con un botón abajo que le pegue al contrato.
 - Al presionar el botón, tenemos que convertir el recorte de la foto al formato deseado y pegarle al contrato con la verification key, y la foto recortada como public input.
 - Si todo sale bien, el contrato va a decir "sisi todo salió bien, sos legit".
+
+---------------------------------------------------------------------------
+
+Charla con gonza (mentor) serverAction --> UseActionState
+
+* Ver el tema de la firma
+* Extraer los offsets y tamaños de imagen para mandar al server
+* Cambiar el tau
+*

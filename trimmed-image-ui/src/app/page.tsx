@@ -8,14 +8,21 @@ import {useState} from "react";
 export function PublisherForm() {
 
     const [originalImage, setOriginalImage] = useState<string | null>(null);
-    const [croppedImage, setCroppedImage] = useState<string | null>(null);
+    const [originalImageSize, setOriginalImageSize] = useState<{ width: number; height: number } | null>(null);
 
-    const handleOriginalImage = (image: string) => {
-        setOriginalImage(image); // Update state with the original image data URL
+    const [croppedImage, setCroppedImage] = useState<string | null>(null);
+    const [croppedImageSize, setCroppedImageSize] = useState<{ width: number; height: number } | null>(null);
+    const [cropOffset, setCropOffset] = useState<{ x: number; y: number } | null>(null);
+
+    const handleOriginalImage = (image: string, size: { width: number; height: number }) => {
+        setOriginalImage(image);
+        setOriginalImageSize(size);
     };
 
-    const handleCroppedImage = (image: string) => {
-        setCroppedImage(image); // Update state with the cropped image data URL
+    const handleCroppedImage = (image: string, size: { width: number; height: number }, offset: { x: number; y: number }) => {
+        setCroppedImage(image);
+        setCroppedImageSize(size);
+        setCropOffset(offset);
     };
 
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -28,9 +35,19 @@ export function PublisherForm() {
         }
         if (croppedImage) {
             formData.append('croppedImage', croppedImage); // Add cropped image data URL to FormData
+        }if (originalImageSize) {
+            formData.append('originalImageWidth', originalImageSize.width.toString());
+            formData.append('originalImageHeight', originalImageSize.height.toString());
         }
-        handlePublisherForm(formData)
-
+        if (croppedImageSize) {
+            formData.append('croppedImageWidth', croppedImageSize.width.toString());
+            formData.append('croppedImageHeight', croppedImageSize.height.toString());
+        }
+        if (cropOffset) {
+            formData.append('cropOffsetX', cropOffset.x.toString());
+            formData.append('cropOffsetY', cropOffset.y.toString());
+        }
+        let Todo = handlePublisherForm(formData)
     }
 
     return (

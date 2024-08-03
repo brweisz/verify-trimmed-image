@@ -96,7 +96,17 @@ export function ReaderForm() {
   );
 }
 
+const circomlibjs = require('circomlibjs');
+
+async function test_hash() {
+  const poseidon = await circomlibjs.buildPoseidon();
+  const input = [BigInt(1), BigInt(2), BigInt(3)];
+  const hash = poseidon(input);
+  console.log(hash);
+}
+
 export default function Home() {
+  test_hash();
   return (
     <main className={styles.container}>
       <div className={styles.column}>

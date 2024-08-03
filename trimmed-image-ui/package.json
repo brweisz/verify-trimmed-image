@@ -13,6 +13,7 @@
   "dependencies": {
     "circom_tester": "^0.0.20",
     "circomlib": "^2.0.5",
+    "circomlibjs": "^0.1.7",
     "cropperjs": "^1.6.2",
     "jimp": "^0.22.12",
     "next": "^14.2.5",

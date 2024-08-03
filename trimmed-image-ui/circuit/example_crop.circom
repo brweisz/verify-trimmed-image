@@ -10,7 +10,7 @@ template Crop(hOrig, wOrig, hNew, wNew, hStartNew, wStartNew) {
 			for (var k = 0; k < 3; k++) {
 				new[i][j][k] === orig[hStartNew + i][wStartNew + j][k];	
 			}		
-		}		
+		}
 	}
 	n_check <== 1;
 }

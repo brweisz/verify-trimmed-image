@@ -1,0 +1,16 @@
+1,1,0,main.check
+2,2,0,main.pr_photo[0][0]
+3,3,0,main.pr_photo[0][1]
+4,4,0,main.pr_photo[1][0]
+5,5,0,main.pr_photo[1][1]
+6,-1,0,main.og_photo[0][0]
+7,-1,0,main.og_photo[0][1]
+8,-1,0,main.og_photo[0][2]
+9,-1,0,main.og_photo[1][0]
+10,-1,0,main.og_photo[1][1]
+11,-1,0,main.og_photo[1][2]
+12,-1,0,main.og_photo[2][0]
+13,-1,0,main.og_photo[2][1]
+14,-1,0,main.og_photo[2][2]
+15,-1,0,main.og_signature
+16,-1,0,main.camera_pk

@@ -1,9 +1,8 @@
-import fs from 'fs';
 
 const convertToOneElement = (rgb: [number, number, number]): number => rgb[0]*256*256 + rgb[1]*256 + rgb[2];
-const convertPhoto = (photo: Array<[number, number, number]>): Array<number> => photo.map(convertToOneElement);
+export const convertPhoto = (photo: Array<[number, number, number]>): Array<number> => photo.map(convertToOneElement);
 
-const divideInBits = (num: bigint): Array<number> => {
+export const divideInBits = (num: bigint): Array<number> => {
   const binary_string = num.toString(2);
   const bit_length = 256;
   let padded_binary_string = binary_string.padStart(bit_length, '0');
@@ -31,7 +30,7 @@ const generateInputJson = (
     camera_pk: divideInBits(camera_public_key),
     og_signature: original_photo_signature.map(divideInBits)
   };
-  fs.writeFile(json_file, JSON.stringify(object), err => console.log(err));
+  //fs.writeFile(json_file, JSON.stringify(object), err => console.log(err));
 }
 
 const changeCircuitParameters = (
@@ -43,7 +42,7 @@ const changeCircuitParameters = (
   offset_x: number,
   offset_y: number
 ) => {
-  fs.appendFile(circom_file,
+  /*fs.appendFile(circom_file,
     `\n\ncomponent main { public [ pr_photo, camera_pk ] } = Crop(${original_photo_width}, ${original_photo_height}, ${presented_photo_width}, ${presented_photo_height}, ${offset_x}, ${offset_y});\n`,
-    (err) => console.log(err));
+    (err) => console.log(err));*/
 }

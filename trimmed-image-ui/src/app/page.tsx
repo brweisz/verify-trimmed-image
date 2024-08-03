@@ -1,6 +1,6 @@
-import Image from "next/image";
 import styles from '../styles/Home.module.css'
 import {handlePublisherForm, handleReaderForm} from "./server"
+import CompileCircuit from "@/app/caller";
 
 export function PublisherForm() {
   return (
@@ -21,7 +21,7 @@ export function PublisherForm() {
         <span>Device key: </span>
         <input type="text" name="key" />
       </label>
-      <button type="submit" className={styles.proveButton}>Generate Proof</button>
+        <CompileCircuit/>
     </form>
   );
 }

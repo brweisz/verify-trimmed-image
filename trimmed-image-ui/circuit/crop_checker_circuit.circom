@@ -8,7 +8,7 @@ pragma circom 2.0.0;
   se puede construir inyeccion a Fp desde F256 x F256 x F256.
 */
 
-include "../node_modules/eddsa.circom";
+include "../node_modules/circomlib/circuits/eddsa.circom";
 
 template Crop(og_width, og_height, pr_width, pr_height, offset_x, offset_y) {
   assert(pr_width + offset_x <= og_width);
@@ -16,13 +16,16 @@ template Crop(og_width, og_height, pr_width, pr_height, offset_x, offset_y) {
 
   signal input og_photo[og_height*og_width];
   signal input pr_photo[pr_height*pr_width];
-  signal input og_signature;
-  signal input camera_pk;
+  signal input og_signature[256][2];
+  signal input camera_pk[256];
   signal output check;
 
   // TODO: CHECKEAR QUE verify(og_photo, og_signature, public_key) === 1
   component verifier = EdDSAVerifier(og_height*og_width);
-  verifier.msg = og_photo;
+  verifier.msg <== og_photo;
+  verifier.A <== camera_pk;
+  verifier.R8 <== og_signature[0];
+  verifier.S <== og_signature[1];
 
   for (var i = 0; i < pr_height; i++) {
 		for (var j = 0; j < pr_width; j++) {

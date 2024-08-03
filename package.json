@@ -1,7 +1,11 @@
 {
   "dependencies": {
+    "elliptic": "^6.5.6",
     "next": "^14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/elliptic": "^6.4.18"
   }
 }

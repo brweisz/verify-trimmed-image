@@ -46,3 +46,7 @@ const changeCircuitParameters = (
     `\n\ncomponent main { public [ pr_photo, camera_pk ] } = Crop(${original_photo_width}, ${original_photo_height}, ${presented_photo_width}, ${presented_photo_height}, ${offset_x}, ${offset_y});\n`,
     (err) => console.log(err));*/
 }
+
+const schnorrSignature = () => {
+  
+}

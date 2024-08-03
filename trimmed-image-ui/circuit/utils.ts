@@ -1,7 +1,7 @@
 import sharp from "sharp";
 
 const convertToOneElement = (rgb: [number, number, number]): number => rgb[0]*256*256 + rgb[1]*256 + rgb[2];
-const convertPhoto = (photo: Array<[number, number, number]>): Array<number> => photo.map(convertToOneElement);
+export const convertPhoto = (photo: any) => photo.map(convertToOneElement);
 
 //@ts-ignore
 export async function base64ToRgbArray(base64String) {

@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import { revalidatePath } from "next/cache";
 import Jimp from "jimp";
 import {exec} from "child_process";
-import {divideInBits, base64ToRgbArray} from "../../circuit/utils";
+import {convertPhoto, base64ToRgbArray} from "../../circuit/utils";
 
 //@ts-ignore
 export async function handlePublisherForm(formData: FormData) {
@@ -12,6 +12,7 @@ export async function handlePublisherForm(formData: FormData) {
         og_photo = og_photo?.replace(/^data:image\/png;base64,/, "");
     }
     og_photo = await base64ToRgbArray(og_photo)
+    og_photo = convertPhoto(og_photo)
 
 
     let pr_photo: unknown = formData.get("croppedImage")
@@ -19,10 +20,8 @@ export async function handlePublisherForm(formData: FormData) {
         pr_photo = pr_photo?.replace(/^data:image\/png;base64,/, "");
     }
     pr_photo = await base64ToRgbArray(pr_photo)
+    pr_photo = convertPhoto(pr_photo)
 
-    console.log(og_photo)
-    console.log(pr_photo)
-    return;
     // let original_photo_signature = formData.get("signature") // original_photo_signature.map(divideInBits)
 
     let original_photo_width = formData.get("originalImageWidth")

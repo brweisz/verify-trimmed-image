@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css'
 import {handlePublisherForm, handleReaderForm} from "./server"
 import ImageCropper from "@/app/ImageCropper";
 import {useState} from "react";
-//import circomlibjs from 'circomlibjs';
+import { buildPoseidon } from 'circomlibjs';
 
 
 export function PublisherForm() {
@@ -98,16 +98,8 @@ export function ReaderForm() {
   );
 }
 
-
-/*async function test_hash() {
-  const poseidon = await circomlibjs.buildPoseidon();
-  const input = [BigInt(1), BigInt(2), BigInt(3)];
-  const hash = poseidon(input);
-  console.log(hash);
-}*/
-
 export default function Home() {
-  //test_hash();
+
   return (
     <main className={styles.container}>
       <div className={styles.column}>

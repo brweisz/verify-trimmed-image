@@ -5,7 +5,7 @@ pragma circom 2.0.0;
   tal que puede ser verificada usando la clave publica de la cámara (Public Input).
 */
 
-include "circomlib/poseidon.circom";
+include "../node_modules/circomlib/circuits/poseidon.circom";
 
 template Crop(og_width, og_height, pr_width, pr_height, offset_x, offset_y) {
   assert(pr_width + offset_x <= og_width);
@@ -13,17 +13,15 @@ template Crop(og_width, og_height, pr_width, pr_height, offset_x, offset_y) {
 
   signal input og_photo[og_height*og_width];
   signal input pr_photo[pr_height*pr_width];
-  signal input camera_pk;
   signal input og_photo_hash;
   signal output check;
 
-  component hasher = Poseidon(og_height*og_width + 1);
+  component hasher = Poseidon(og_height*og_width);
   for (var i = 0; i < og_height; i++) {
     for (var j = 0; j < og_width; j++) {
       hasher.inputs[i*og_width + j] <== og_photo[i*og_width + j];
     }
   }
-  hasher.inputs[og_height*og_width] <== camera_pk;
   og_photo_hash === hasher.out;
 
   for (var i = 0; i < pr_height; i++) {
@@ -36,4 +34,4 @@ template Crop(og_width, og_height, pr_width, pr_height, offset_x, offset_y) {
   check <== 1;
 }
 
-component main { public [ pr_photo, camera_pk, og_photo_hash ] } = Crop(3, 3, 2, 2, 0, 1);
+component main { public [ pr_photo, og_photo_hash ] } = Crop(3, 3, 2, 2, 0, 1);

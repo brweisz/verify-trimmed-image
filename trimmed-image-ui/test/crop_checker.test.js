@@ -1,12 +1,13 @@
-import { assert } from "chai";
-import "mocha";
-const wasm_tester = require("circom_tester").wasm
+
+//const assert = require('chai');
+require("mocha");
+const wasm_tester = require("circom_tester").wasm;
 
 describe("Crop Checker Circuit TestCase", function () {
-  let cropCheckerCircuit: any;
+  let cropCheckerCircuit;
 
   before(async function () {
-    cropCheckerCircuit = await wasm_tester("../crop_checker_circuit.circom")
+    cropCheckerCircuit = await wasm_tester("./circuit/crop_checker_circuit_test.circom")
   })
 
   it("Should generate the witness successfully", async function () {
@@ -20,8 +21,7 @@ describe("Crop Checker Circuit TestCase", function () {
         "1", "2",
         "2", "1"
       ],
-      camera_pk: "13208123981239021890213",
-      og_photo_hash: "9913471608845011231399089837629140426825278724184336904104410352444837118765"
+      og_photo_hash: "3787385741029080642174659206471460199738583318311926895716925657054944127477"
     }
     const witness = await cropCheckerCircuit.calculateWitness(input)
     await cropCheckerCircuit.assertOut(witness, {})
@@ -37,12 +37,11 @@ describe("Crop Checker Circuit TestCase", function () {
         "1", "2",
         "2", "1"
       ],
-      camera_pk: "13208123981239021890213",
-      og_photo_hash: "9913471608845011231399089837629140426825278724184336904104410352444837118765"
+      og_photo_hash: "3787385741029080642174659206471460199738583318311926895716925657054944127477"
     }
     try {
       await cropCheckerCircuit.calculateWitness(input)
-    } catch (err: any) {
+    } catch (err) {
       assert(err.message.includes("Assert Failed"))
     }
   })
@@ -57,8 +56,7 @@ describe("Crop Checker Circuit TestCase", function () {
         "1", "2",
         "2"
       ],
-      camera_pk: "13208123981239021890213",
-      og_photo_hash: "9913471608845011231399089837629140426825278724184336904104410352444837118765"
+      og_photo_hash: "3787385741029080642174659206471460199738583318311926895716925657054944127477"
     }
     try {
       await cropCheckerCircuit.calculateWitness(input)
@@ -79,7 +77,6 @@ describe("Crop Checker Circuit TestCase", function () {
         "1", "2",
         "2", "1"
       ],
-      camera_pk: "13208123981239021890213",
       og_photo_hash: "21309471238940857124958149031345489676354579051"
     }
     try {
@@ -101,8 +98,7 @@ describe("Crop Checker Circuit TestCase", function () {
         "2", "2",
         "1", "1"
       ],
-      camera_pk: "13208123981239021890213",
-      og_photo_hash: "21309471238940857124958149031345489676354579051"
+      og_photo_hash: "3787385741029080642174659206471460199738583318311926895716925657054944127477"
     }
     try {
       await cropCheckerCircuit.calculateWitness(input)

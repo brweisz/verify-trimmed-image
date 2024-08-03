@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "mocha ./test/*.test.js"
   },
   "dependencies": {
+    "circom_tester": "^0.0.20",
     "circomlib": "^2.0.5",
     "cropperjs": "^1.6.2",
     "jimp": "^0.22.12",

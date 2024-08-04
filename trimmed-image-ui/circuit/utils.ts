@@ -1,7 +1,15 @@
 import sharp from "sharp";
 
 const convertToOneElement = (rgb: [number, number, number]): number => rgb[0]*256*256 + rgb[1]*256 + rgb[2];
-export const convertPhoto = (photo: any) => photo.map(convertToOneElement);
+export const convertPhotoToFieldElement = (photo: any) => photo.map(convertToOneElement);
+
+const convertNumberToBitsArray = (n: number): [number] => (
+    [7,6,5,4,3,2,1,0].map((i: number) => ((n >> i) & 1))
+);
+const convertPixelToBitsArray = (rgb: [number, number, number]): [number] => (
+    convertNumberToBitsArray(rgb[0]).concat(convertNumberToBitsArray(rgb[1])).concat(convertNumberToBitsArray(rgb[2]))
+);
+export const convertPhotoToBitsArray = (photo: any) => photo.map(convertPixelToBitsArray);
 
 //@ts-ignore
 export async function base64ToRgbArray(base64String) {
@@ -55,8 +63,8 @@ const generateInputJson = (
   original_photo_signature: [bigint, bigint]
 ) => {
   const object = {
-    og_photo: convertPhoto(original_photo),
-    pr_photo: convertPhoto(presented_photo),
+    og_photo: convertPhotoToFieldElement(original_photo),
+    pr_photo: convertPhotoToFieldElement(presented_photo),
     camera_pk: divideInBits(camera_public_key),
     og_signature: original_photo_signature.map(divideInBits)
   };

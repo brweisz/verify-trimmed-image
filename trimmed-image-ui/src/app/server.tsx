@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import { revalidatePath } from "next/cache";
 import Jimp from "jimp";
 import {exec} from "child_process";
-import {convertPhoto, base64ToRgbArray} from "../../circuit/utils";
+import {convertPhotoToFieldElement, base64ToRgbArray, convertPhotoToBitsArray} from "../../circuit/utils";
 import {sha256} from "js-sha256";
 
 //@ts-ignore
@@ -14,7 +14,8 @@ export async function handlePublisherForm(formData: FormData) {
         og_photo_data = og_photo?.replace(/^data:image\/png;base64,/, "");
     }
     og_photo = await base64ToRgbArray(og_photo_data)
-    og_photo = convertPhoto(og_photo)
+    const og_photo_field = convertPhotoToFieldElement(og_photo)
+    const og_photo_bits = convertPhotoToBitsArray(og_photo)
 
     let og_photo_hash = sha256(og_photo_data);
 
@@ -23,7 +24,7 @@ export async function handlePublisherForm(formData: FormData) {
         pr_photo = pr_photo?.replace(/^data:image\/png;base64,/, "");
     }
     pr_photo = await base64ToRgbArray(pr_photo)
-    pr_photo = convertPhoto(pr_photo)
+    pr_photo = convertPhotoToFieldElement(pr_photo)
 
     console.log(formData)
 
@@ -49,7 +50,8 @@ export async function handlePublisherForm(formData: FormData) {
 
     // Escribir un archivo de inputs
     let circuit_inputs = {
-        og_photo,
+        og_photo_field,
+        og_photo_bits,
         pr_photo,
         og_photo_hash,
     }

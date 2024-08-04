@@ -1,36 +1,17 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ZK-Trimmer
 
-## Getting Started
+Integrantes: Bruno Weisz, Lorenzo Ruiz Diaz, Caro Lang y Chino Cribioli
 
-First, run the development server:
+## TL;DR
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+ZK-Trimmer es una herramienta para generar y verificar pruebas de veracidad sobre imagenes editadas. Permite, mediante Zero-Knowledge Proofs, a algun agente demostrar y/o verificar que una foto viene de donde dice venir.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Cuentito
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Imagina que un diario tiene una camara con una clave privada integrada (a la cual no tenemos acceso) que usa para firmar digitalmente cada foto que toma junto con cierta metadata tales como fecha, hora, lugar geografico, etc. De esta manera, dada la clave publica del dispositivo y la firma de cierto par Foto-Metadata, podriamos verificar si efectivamente la foto que vemos fue sacada en el momento y lugar que el diario afirma.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Ahora, que pasa si decidimos aplicar alguna transformacion a esta foto tales como recortarla o aplicarle algun filtro? En ese caso, la firma ya no seria valida para la foto resultante, perdiendo credibilidad.
 
-## Learn More
+Para solucionar este problema, creamos una herramienta que al recortar una foto genera una prueba criptografica de que el resultado es producto de una transformacion valida sobre una imagen firmada correctamente.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+De esta manera, el diario podria recortar las fotos a conveniencia y adjuntar una prueba de que no falsifico ni manipulo malisiosamente la imagen.

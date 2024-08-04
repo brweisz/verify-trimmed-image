@@ -40,6 +40,17 @@ export async function base64ToRgbArray(base64String) {
   }
 }
 
+export const hexToBits = (hex: string): number[] => {
+  const bits: number[] = [];
+  for (let i = 0; i < hex.length; i++) {
+    const hexDigit = parseInt(hex[i], 16); // Convert hex digit to integer
+    for (let j = 3; j >= 0; j--) { // Each hex digit represents 4 bits
+        bits.push((hexDigit >> j) & 1);
+    }
+  }
+  return bits;
+}
+
 export const divideInBits = (num: bigint): Array<number> => {
   const binary_string = num.toString(2);
   const bit_length = 256;

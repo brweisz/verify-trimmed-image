@@ -4,7 +4,7 @@
 CIRCUIT="crop_checker_circuit_custom"
 
 # Variable to store the number of the ptau file
-PTAU=13
+PTAU=20
 
 # Path to the directory where the circuit is located
 PATH_CIRCUIT="./circuit"

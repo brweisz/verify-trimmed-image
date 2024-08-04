@@ -1,10 +1,10 @@
-# ZK-Trimmer
+# PhotoLock
 
 Integrantes: Bruno Weisz, Lorenzo Ruiz Diaz, Caro Lang y Chino Cribioli
 
 ## TL;DR
 
-ZK-Trimmer es una herramienta para generar y verificar pruebas de veracidad sobre imagenes editadas. Permite, mediante Zero-Knowledge Proofs, a algun agente demostrar y/o verificar que una foto viene de donde dice venir.
+PhotoLock es una herramienta para generar y verificar pruebas de veracidad sobre imagenes editadas. Permite, mediante Zero-Knowledge Proofs, a algun agente demostrar y/o verificar que una foto viene de donde dice venir.
 
 ## Cuentito
 

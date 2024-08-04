@@ -48,7 +48,7 @@ export function PublisherForm() {
             formData.append('cropOffsetX', cropOffset.x.toString());
             formData.append('cropOffsetY', cropOffset.y.toString());
         }
-        let Todo = handlePublisherForm(formData)
+        handlePublisherForm(formData)
     }
 
     return (

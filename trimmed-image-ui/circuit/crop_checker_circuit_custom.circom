@@ -43,3 +43,6 @@ template Crop(og_width, og_height, pr_width, pr_height, offset_x, offset_y) {
   }
   check <== 1;
 }
+
+component main { public [ pr_photo, og_photo_hash ] } = Crop(16, 
+        16, 12, 2, 1, 6);

@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import { revalidatePath } from "next/cache";
 import Jimp from "jimp";
 import {exec} from "child_process";
-import {convertPhotoToFieldElement, base64ToRgbArray, convertPhotoToBitsArray} from "../../circuit/utils";
+import {convertPhotoToFieldElement, base64ToRgbArray, convertPhotoToBitsArray, hexToBits} from "../../circuit/utils";
 import {sha256} from "js-sha256";
 
 //@ts-ignore
@@ -17,7 +17,7 @@ export async function handlePublisherForm(formData: FormData) {
     const og_photo_field = convertPhotoToFieldElement(og_photo)
     const og_photo_bits = convertPhotoToBitsArray(og_photo)
 
-    let og_photo_hash = sha256(og_photo_data);
+    let og_photo_hash = hexToBits(sha256(og_photo_data));
 
     let pr_photo: unknown = formData.get("croppedImage")
     if (typeof pr_photo === "string") {

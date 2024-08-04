@@ -131,4 +131,7 @@ dist
 
 # next.js project
 trimmed-image-ui/node_modules
+trimmed-image-ui/ptau
+trimmed-image-ui/circuit/build/crop_checker_circuit_custom.r1cs
+trimmed-image-ui/circuit/build/crop_checker_circuit_custom.sym
 

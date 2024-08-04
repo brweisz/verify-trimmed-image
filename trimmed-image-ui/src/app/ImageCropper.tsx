@@ -67,13 +67,13 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ onOriginalImage, onCroppedI
 
     return (
         <div className={styles.cropper}>
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-            {imageSrc && <img ref={imageRef} src={imageSrc} alt="Source" />}
+            {!imageSrc && <input type="file" accept="image/*" onChange={handleFileChange} />}
+            {imageSrc && <img className={styles.someImage} ref={imageRef} src={imageSrc} alt="Source" />}
             {imageSrc && <button className={styles.cropButton} type="button" onClick={handleCrop}>Crop</button>}
             {croppedImageSrc && (
                 <div className={styles.croppedImageContainer}>
                     <h2 className={styles.croppedImageText}>Cropped Image</h2>
-                    <img className={styles.croppedImage} src={croppedImageSrc} alt="Cropped" />
+                    <img className={styles.someImage} src={croppedImageSrc} alt="Cropped" />
                 </div>
             )}
         </div>

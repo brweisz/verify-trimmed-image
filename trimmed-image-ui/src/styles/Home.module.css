@@ -11,9 +11,6 @@
   color:#6A9E8C;
 }
 
-
-
-
 .title {
   font-family: "Droid Sans Mono Dotted", serif;
   font-size: 20px;
@@ -54,9 +51,12 @@
 }
 
 .formInputText {
-  color: #bfbdbd;
+  color: #0f0d0d;
   background-color: #bfbdbd;
   border-radius: 5px;
+  padding: 2px;
+  margin-top: 5px;
+  width: 500px;
 }
 
 .verifyButton {
@@ -98,6 +98,6 @@
   align-self: center;
 }
 
-.croppedImage {
+.someImage {
   align-self: center;
 }

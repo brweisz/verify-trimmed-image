@@ -18,6 +18,10 @@ Para solucionar este problema, creamos una herramienta que al recortar una foto 
 
 De esta manera, el diario podria recortar las fotos a conveniencia y adjuntar una prueba de que no falsifico ni manipulo malisiosamente la imagen.
 
+### Slides
+
+Preparamos una [presentacion](https://docs.google.com/presentation/d/1d3Velmm8Vooe9WUCosvAns153QIgs9gNYdw6lGkIw-c/edit?usp=sharing) para acompañar la charla introductoria de nuestro proyecto.
+
 ## Como usarlo
 
 Para levantar el proyecto localmente, correr el comando `yarn run dev` en el directorio `trimmed-image-ui`.
@@ -30,3 +34,9 @@ Para generar una prueba, cargar una imagen en el input correspondiente y recorta
 Se deberia subir un contrato a la blokchain que verifique la autenticidad de la foto recortada a partir de ella, que tambien debe recibir la prueba de validez y la clave publica de la camara.
 
 El verificador no esta programado pero deberia, a partir de la imagen recortada, la prueba provista por el mecanismo anterior, la direccion del contrato y la clave publica de la camara, pegarle al contrato y verificar la firma del recorte.
+
+## Stack
+
+Para el frontend hicimos una Next.js application para interactuar con el cliente.
+
+Toda la parte de circuitos esta hecha en circom, aprovechando que tiene una integracion para generar y deployar smart contracts en Solidity.

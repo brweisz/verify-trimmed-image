@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
-
+import styles from '../styles/Home.module.css'
 
 interface ImageCropperProps {
     onOriginalImage: (image: string, size: { width: number; height: number }) => void;
@@ -69,7 +69,7 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ onOriginalImage, onCroppedI
         <div>
             <input type="file" accept="image/*" onChange={handleFileChange} />
             {imageSrc && <img ref={imageRef} src={imageSrc} alt="Source" />}
-            <button type="button" onClick={handleCrop}>Crop</button>
+            {imageSrc && <button className={styles.cropButton} type="button" onClick={handleCrop}>Crop</button>}
             {croppedImageSrc && (
                 <div>
                     <h2>Cropped Image</h2>

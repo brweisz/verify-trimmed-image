@@ -52,7 +52,7 @@ export function PublisherForm() {
     }
 
     return (
-      <div>
+      <div className={styles.formContent}>
           <form onSubmit={onSubmit} className="flex flex-col gap-4">
 
               <ImageCropper onOriginalImage={handleOriginalImage} onCroppedImage={handleCroppedImage}/>
@@ -102,11 +102,11 @@ export default function Home() {
   return (
     <main className={styles.container}>
       <div className={styles.column}>
-        <h1>Publisher</h1>
+        <h1 className={styles.title}>Publisher</h1>
         {PublisherForm()}
       </div>  
       <div className={styles.column}>
-        <h1>Reader</h1>
+        <h1 className={styles.title}>Reader</h1>
         {ReaderForm()}
       </div>
     </main>

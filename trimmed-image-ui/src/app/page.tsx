@@ -4,7 +4,6 @@ import styles from '../styles/Home.module.css'
 import {handlePublisherForm, handleReaderForm} from "./server"
 import ImageCropper from "@/app/ImageCropper";
 import {useState} from "react";
-import { buildPoseidon } from 'circomlibjs';
 
 
 export function PublisherForm() {

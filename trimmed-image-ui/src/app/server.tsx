@@ -4,16 +4,19 @@ import { revalidatePath } from "next/cache";
 import Jimp from "jimp";
 import {exec} from "child_process";
 import {convertPhoto, base64ToRgbArray} from "../../circuit/utils";
+import {sha256} from "js-sha256";
 
 //@ts-ignore
 export async function handlePublisherForm(formData: FormData) {
     let og_photo: unknown = formData.get("originalImage")
+    let og_photo_data;
     if (typeof og_photo === "string") {
-        og_photo = og_photo?.replace(/^data:image\/png;base64,/, "");
+        og_photo_data = og_photo?.replace(/^data:image\/png;base64,/, "");
     }
-    og_photo = await base64ToRgbArray(og_photo)
+    og_photo = await base64ToRgbArray(og_photo_data)
     og_photo = convertPhoto(og_photo)
 
+    let og_photo_hash = sha256(og_photo_data);
 
     let pr_photo: unknown = formData.get("croppedImage")
     if (typeof pr_photo === "string") {
@@ -22,12 +25,12 @@ export async function handlePublisherForm(formData: FormData) {
     pr_photo = await base64ToRgbArray(pr_photo)
     pr_photo = convertPhoto(pr_photo)
 
-    // let original_photo_signature = formData.get("signature") // original_photo_signature.map(divideInBits)
+    console.log(formData)
 
     let original_photo_width = formData.get("originalImageWidth")
-    let original_photo_height = formData.get("originalImageWeight")
-    let presented_photo_width = formData.get("presentedImageWidth")
-    let presented_photo_height = formData.get("presentedImageWeight")
+    let original_photo_height = formData.get("originalImageHeight")
+    let presented_photo_width = formData.get("croppedImageWidth")
+    let presented_photo_height = formData.get("croppedImageHeight")
     let offset_x = formData.get("cropOffsetX")
     let offset_y = formData.get("cropOffsetY")
 
@@ -41,14 +44,14 @@ export async function handlePublisherForm(formData: FormData) {
     try {await fs.copyFile(sourceCircuit, customCircuit, fs.constants.COPYFILE_EXCL)} catch (err){console.log(err)}
 
     await fs.appendFile(customCircuit,
-        `\n\ncomponent main { public [ pr_photo, camera_pk ] } = Crop(${original_photo_width}, 
+        `\n\ncomponent main { public [ pr_photo, og_photo_hash ] } = Crop(${original_photo_width}, 
         ${original_photo_height}, ${presented_photo_width}, ${presented_photo_height}, ${offset_x}, ${offset_y});\n`);
 
     // Escribir un archivo de inputs
     let circuit_inputs = {
         og_photo,
         pr_photo,
-        //og_photo_hash,
+        og_photo_hash,
     }
 
     let inputs_file_path = 'circuit/input.json'

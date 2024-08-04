@@ -52,24 +52,24 @@ export function PublisherForm() {
     }
 
     return (
-      <div className={styles.formContent}>
-          <form onSubmit={onSubmit} className="flex flex-col gap-4">
+
+          <form className={styles.formContent} onSubmit={onSubmit} >
 
               <ImageCropper onOriginalImage={handleOriginalImage} onCroppedImage={handleCroppedImage}/>
-              <label>
+              <label className={styles.formInputGroup}>
                   <span>Image signature: </span>
-                  <input type="text" name="signature"/>
+                  <input className={styles.formInputText} type="text" name="signature"/>
               </label>
-              <label>
+              <label className={styles.formInputGroup}>
                   <span>Device key: </span>
-                  <input type="text" name="key"/>
+                  <input className={styles.formInputText} type="text" name="key"/>
               </label>
               <button type="submit" className={styles.proveButton}>
                   Compile
               </button>
           </form>
 
-      </div>
+
     );
 }
 

@@ -5,16 +5,21 @@
   color: white;
 }
 
-.cropButton {
-
+.colors {
+  color:#6B9E6A;
+  color:#9E6B6A;
+  color:#6A9E8C;
 }
+
+
+
 
 .title {
   font-family: "Droid Sans Mono Dotted", serif;
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 15px;
-  color: burlywood;
+  color: white;
 }
 
 .column {
@@ -24,25 +29,75 @@
   flex-grow: 1;
   margin: 15px;
   padding: 10px;
-  background-color: rgba(140, 135, 140, 0.58);
-  border: 1px solid #1d1d1d;
+  background-color: #6A9E8C;
+  border: 1px solid #6B9E6A;
   border-radius: 10px;
+  height: auto;
 }
 
 .formContent {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: flex-start;
+  gap: 30px;
+  height: 80%;
   flex-grow: 1;
 
+  font-family: "Droid Sans Mono Dotted", serif;
+}
+
+.formInputGroup{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.formInputText {
+  color: #bfbdbd;
+  background-color: #bfbdbd;
+  border-radius: 5px;
 }
 
 .verifyButton {
-  background-color: #04AA6D;
+  background-color: #9E6B6A;;
   border-radius: 8px;
+  align-self: center;
+  padding: 10px;
 }
 
 .proveButton {
-  background-color: #f44336;
+  background-color: #9E6B6A;;
   border-radius: 8px;
+  align-self: center;
+  padding: 10px;
+}
+
+.cropButton {
+  align-self: center;
+  background-color: #9E6B6A;;
+  border-radius: 8px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.cropper {
+  display: flex;
+  flex-direction: column;
+}
+
+.croppedImageText {
+  font-family: "Droid Sans Mono Dotted", serif;
+  font-size: 18px;
+
+}
+
+.croppedImageContainer{
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.croppedImage {
+  align-self: center;
 }

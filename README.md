@@ -5,7 +5,7 @@
 # Warning
 El proyecto está incompleto y requiere mucho más trabajo, sobre todo en la parte de dónde se ejecutan las cosas. Actualmente se corre en localhost y requiere tener circom instalado. Por otro lado, decidimos deshabilitar el botón de compilación dado que puede generar problemas de performance. Más allá de esto, creemos que la idea es buena y tiene futuro como servicio
 
-### TL;DR
+## TL;DR
 
 PhotoLock es una herramienta para generar y verificar pruebas de veracidad sobre imágenes editadas. Permite a alguna persona mediante Zero-Knowledge Proofs demostrar y/o verificar que una foto viene de donde dice venir.
 

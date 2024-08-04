@@ -1,10 +1,12 @@
 {
   "dependencies": {
+    "cropperjs": "^1.6.2",
     "elliptic": "^6.5.6",
     "js-sha256": "^0.11.0",
     "next": "^14.2.5",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "sharp": "^0.33.4"
   },
   "devDependencies": {
     "@types/elliptic": "^6.4.18"
